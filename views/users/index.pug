@@ -1,0 +1,16 @@
+h1 List Users
+button 
+    a(href="/users") Back to users List
+
+form(action="users/search", method="GET")
+    input( type="text",name="q")
+    button search  
+
+ul
+    each user in users
+        li 
+            span= user.name
+            a(href="/view/"+ user.id) view
+
+button
+    a(href="/users/create") Create new user

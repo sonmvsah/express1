@@ -5,9 +5,19 @@ const port = 3005;
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true }))
 
-var users = [{ id: 1, name: "mai viet son" },
-    { id: 2, name: "Nguyen thi hai yen" }
-];
+
+
+var low = require('lowdb');
+var FileSync = require('./node_modules/lowdb/adapters/FileSync');
+var adapter = new FileSync('db.json');
+db = low(adapter);
+db.defaults({ users: [] })
+    .write();
+var shortid = require('shortid');
+
+var removevi = require('./modulejs/removevi');
+
+
 app.set('view engine', 'pug');
 app.set('views', './views');
 
@@ -18,18 +28,22 @@ app.get('/', (req, res) => {
 });
 app.get('/users', (req, res) => {
     res.render('users/index', {
-        users: users
+        users: db.get('users').value()
     });
 });
 
-// app.get('/view/:userId', (req, res) => {
-//     res.render('users/view', obj);
+app.get('/view/:id', (req, res) => {
+    var id = req.params.id;
+    var matched = db.get('users').find({ id: id }).value();
+    res.render('users/view', {
+        user: matched
+    });
 
-// });
+});
 app.get('/users/search', function(req, res) {
     var keyword = req.query.q.toLowerCase();
-    var matchUser = users.filter(function(x) {
-        return x.name.toLowerCase().indexOf(keyword) != -1
+    var matchUser = db.get('users').value().filter(function(x) {
+        return removevi(x.name.toLowerCase()).indexOf(keyword) != -1
     });
     res.render('users/index', {
         users: matchUser
@@ -42,11 +56,13 @@ app.get('/users/create', function(req, res) {
 });
 app.post('/users/create', function(req, res) {
     var name = req.body.name;
-    users.push({ name: name });
-    res.render('users/index', {
-        users: users
-    });
-    console.log(users);
+    var id = shortid.generate();
+
+    db.get('users')
+        .push({ id: id, name: name })
+        .write()
+    res.redirect('/users');
+
 });
 
 

@@ -6,9 +6,11 @@ head
     script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js', integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM', crossorigin='anonymous')
 
 body
-    .container.m-5.bg-light
-        h2 Create new User
-        form(action="/users/create", method="POST")
-            Label Name: 
-            input(tyoe="text",name="name")
-            button.btn.btn-primary.text-light Create
+    h2 Create new User
+    .container.m-5.bg-light.p-5
+        
+        form(action="/users/create", method="POST").d-flex
+            .input-group
+                span.input-group-addon.px-3.pt-2.bg-warning.d-flex Name: 
+                input(tyoe="text",name="name").form-control
+                button.btn.btn-primary.text-light Create

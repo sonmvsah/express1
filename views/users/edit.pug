@@ -6,15 +6,16 @@ head
     script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js', integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM', crossorigin='anonymous')
 
 body
-    h1 View Detail: 
-    .container.m-5.p-5.bg-light
-     
-
-        p 
-            b User ID: &nbsp
-            span= user.id
-        p 
-            b Name: &nbsp
-            span= user.name
-        button.btn.btn-primary
-            a(href="/users").text-light Back
+    h2.p-3 Update User: 
+    .container.m-5.bg-light.d-flex.justify-content-center
+       
+        form(action="/users/update" method="POST").py-3
+            p User ID: &nbsp
+                input(value=user.id, name="id" type='text' readonly).form-control
+            p Name: &nbsp
+                input(value=user.name, name="name" type='text').form-control
+            button.btn.btn-primary
+                a(href="/users").text-light Back
+            span &nbsp
+            span &nbsp
+            button.btn.btn-success.text-light Update

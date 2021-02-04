@@ -9,7 +9,7 @@ var userRouter = require('./routes/users.route')
 
 app.set('view engine', 'pug');
 app.set('views', './views');
-
+app.use(express.static('public'));
 app.get('/', (req, res) => {
 
     res.render('home', { title: "mai vietson", message: "a thi la ma" });
